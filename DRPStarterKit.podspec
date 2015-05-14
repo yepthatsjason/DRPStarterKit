@@ -9,30 +9,31 @@
 
 Pod::Spec.new do |s|
   s.name             = "DRPStarterKit"
-  s.version          = "0.1.0"
-  s.summary          = "A short description of DRPStarterKit."
+  s.version          = "1.0.0"
+  s.summary          = "Collection of iOS classes to jumpstart development of new projects"
   s.description      = <<-DESC
-                       An optional longer description of DRPStarterKit
-
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
+                       This pod brings in a common classes that are generic and can be shared among
+                       different iOS apps.
                        DESC
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/DRPStarterKit"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
+  s.homepage         = "https://github.com/yepthatsjason/DRPStarterKit"
   s.license          = 'MIT'
   s.author           = { "Jason Ederle" => "jason@funly.io" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/DRPStarterKit.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.source           = { :git => "https://github.com/yepthatsjason/DRPStarterKit.git", :tag => s.version.to_s }
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
-  s.resource_bundles = {
-    'DRPStarterKit' => ['Pod/Assets/*.png']
-  }
+  s.public_header_files = 'Pod/Classes/**/*.h'
+  s.frameworks = 'UIKit', 'MapKit'
+  s.dependency 'GoogleAnalytics-iOS-SDK'
+  s.dependency 'APAddressBook'
+  s.dependency 'ECPhoneNumberFormatter'
+  s.dependency 'MBProgressHUD'
+  s.dependency 'GPUImage'
+  s.dependency 'APAddressBook'
+  s.dependency 'SDWebImage'
+  s.dependency 'AFNetworking'
+  s.dependency 'DRPBase'
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end
