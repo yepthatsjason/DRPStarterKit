@@ -44,7 +44,7 @@ static NSString * const kMessageFormat = @"We noticed you were shaking %@. Would
   
   if (event.subtype == UIEventSubtypeMotionShake) {
     
-    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     NSString *msg = [NSString stringWithFormat:kMessageFormat, appName];
     UIAlertView *ask = [[UIAlertView alloc] initWithTitle:@"Shake Detected"
                                                   message:msg
@@ -66,7 +66,6 @@ static NSString * const kMessageFormat = @"We noticed you were shaking %@. Would
 
 - (void)showEmailFeedback
 {
-  
   // capture screenshot and write to disk
   UIImage *screenshot = [self _takeScreenshot];
   NSData *data = UIImageJPEGRepresentation(screenshot, .85);
@@ -76,9 +75,9 @@ static NSString * const kMessageFormat = @"We noticed you were shaking %@. Would
   [data writeToURL:screenshotURL atomically:YES];
   
   NSString *feedbackMessage = @"Please enter feedback here:\n\n";
-  
+
   // use share controller to send the feedback
-  NSString *subject = [NSString stringWithFormat:@"%@ Feedback", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]];
+  NSString *subject = [NSString stringWithFormat:@"%@ Feedback", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"]];
   _shareController = [[DRPShareMessageController alloc] initWithSubject:subject
                                                                 message:feedbackMessage
                                                                   media:screenshotURL
