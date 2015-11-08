@@ -83,7 +83,8 @@ typedef NS_ENUM(NSInteger, DRPInviteType)
     }
     return [_phoneNumberFormatter stringForObjectValue:contact.phones.firstObject];
   } else if (_inviteType == kDRPInviteTypeEmail) {
-    return contact.emails.firstObject;
+    APEmail *anyEmail = contact.emails.firstObject;
+    return anyEmail.address;
   } else {
     return nil;
   }
@@ -92,12 +93,15 @@ typedef NS_ENUM(NSInteger, DRPInviteType)
 - (void)loadPeopleFromAddressBook
 {
   _addressBook = [[APAddressBook alloc] init];
-  _addressBook.fieldsMask = APContactFieldFirstName | APContactFieldLastName |
-                            APContactFieldPhones | APContactFieldEmails | APContactFieldRecordID;
+  _addressBook.fieldsMask = APContactFieldName | APContactFieldPhonesOnly
+    | APContactFieldEmailsOnly | APContactFieldLinkedRecordIDs;
+
   NSMutableDictionary *discoveredUsers = [NSMutableDictionary dictionary];
-  
+
+  __weak typeof(self) weakSelf = self;
+
   _addressBook.filterBlock = ^(APContact *contact) {
-    if (!contact.firstName && !contact.lastName) {
+    if (!contact.name.firstName && !contact.name.lastName) {
       return NO;
     }
     
@@ -115,9 +119,9 @@ typedef NS_ENUM(NSInteger, DRPInviteType)
     
     // ignore duplicates in users address book, thanks Mobile Me.. geez
     NSString *key = [NSString stringWithFormat:@"%@ - %@ - %@",
-                     contact.firstName,
-                     contact.lastName,
-                     [self getContactTypeInfo:contact]];
+                     contact.name.firstName,
+                     contact.name.lastName,
+                     [weakSelf getContactTypeInfo:contact]];
     
     if ([discoveredUsers objectForKey:key]) {
       return NO;
@@ -182,8 +186,8 @@ typedef NS_ENUM(NSInteger, DRPInviteType)
 - (void)prepareCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath
 {
   APContact *person = _filteredPeople[indexPath.row];
-  NSString *firstName = person.firstName;
-  NSString *lastName = person.lastName;
+  NSString *firstName = person.name.firstName;
+  NSString *lastName = person.name.lastName;
   NSString *fullName = nil;
   
   if (firstName && lastName) {
