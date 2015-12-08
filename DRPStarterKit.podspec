@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "DRPStarterKit"
-  s.version          = "1.0.0"
+  s.version          = "1.0.1"
   s.summary          = "Collection of iOS classes to jumpstart development of new projects"
   s.description      = <<-DESC
                        This pod brings in a common classes that are generic and can be shared among
